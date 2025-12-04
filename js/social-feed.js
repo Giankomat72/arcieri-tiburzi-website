@@ -3,7 +3,7 @@ function loadFacebookPlugin() {
     const fbContainer = document.getElementById('facebook-feed');
     fbContainer.innerHTML = `
         <div class="fb-page" 
-             data-href="https://www.facebook.com/YOUR_FACEBOOK_PAGE" 
+             data-href="https://www.facebook.com/kiara.flash" 
              data-tabs="timeline" 
              data-width="500" 
              data-height="600" 
