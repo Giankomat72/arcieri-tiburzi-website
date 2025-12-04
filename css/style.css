@@ -278,3 +278,36 @@ footer {
     color: var(--secondary-color);
     text-decoration: underline;
 }
+
+/* Stile per il titolo delle news */
+.news-title {
+    color: var(--primary-color);
+    font-size: 1.1rem;
+    margin: 0.5rem 0;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+/* Stile per il messaggio di errore */
+.news-error {
+    background: #fff3cd;
+    border: 1px solid #ffc107;
+    border-radius: 8px;
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.news-error p {
+    margin: 0.5rem 0;
+    color: #856404;
+}
+
+.news-error a {
+    color: var(--primary-color);
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+.news-error a:hover {
+    color: var(--secondary-color);
+}
