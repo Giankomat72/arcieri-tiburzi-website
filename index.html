@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASD Gli Arcieri del Tiburzi - Castiglione della Pescaia</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">Gli Arcieri del Tiburzi</div>
+            <ul class="nav-links">
+                <li><a href="#club">Il Club</a></li>
+                <li><a href="#news">News</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#contatti">Contatti</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>ASD Gli Arcieri del Tiburzi</h1>
+        <p>Tiro con l'arco in ambiente naturale - Castiglione della Pescaia</p>
+    </section>
+
+    <!-- Il Club -->
+    <section id="club" class="section">
+        <h2>Il Club</h2>
+        <p>Gli Arcieri del Tiburzi è una associazione sportiva dilettantistica di tiro con l'arco affiliata alle federazioni nazionali FIARC e FIDASC. Siamo situati nella splendida cornice naturale della Valle delle Cannucce a Castiglione della Pescaia.</p>
+        <p>Il nostro percorso di tiro si sviluppa in un ambiente naturale incontaminato, offrendo un'esperienza unica per arcieri di tutti i livelli.</p>
+    </section>
+
+    <!-- News da Facebook -->
+    <section id="news" class="section">
+        <h2>Ultime News</h2>
+        <div id="facebook-feed">
+            <!-- Il feed Facebook verrà caricato qui -->
+        </div>
+    </section>
+
+    <!-- Gallery -->
+    <section id="gallery" class="section">
+        <h2>Galleria Foto</h2>
+        <div class="gallery-grid" id="gallery-container">
+            <!-- Le foto verranno caricate qui -->
+        </div>
+    </section>
+
+    <!-- Form Iscrizioni -->
+    <section id="contatti" class="section">
+        <h2>Contatti e Iscrizioni</h2>
+        <form id="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+            <input type="text" name="nome" placeholder="Nome e Cognome" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="tel" name="telefono" placeholder="Telefono">
+            <select name="tipo-richiesta" required>
+                <option value="">Seleziona tipo richiesta</option>
+                <option value="informazioni">Informazioni generali</option>
+                <option value="iscrizione">Iscrizione campionato</option>
+                <option value="corso">Corso principianti</option>
+            </select>
+            <textarea name="messaggio" placeholder="Messaggio" rows="5" required></textarea>
+            <button type="submit">Invia</button>
+        </form>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <p>📧 gliarcierideltiburzi.09covo@gmail.com</p>
+            <p>📱 +39 338 9185629</p>
+            <p>📍 Valle delle Cannucce, Castiglione della Pescaia 58043 GR</p>
+        </div>
+    </footer>
+
+    <script src="js/social-feed.js"></script>
+</body>
+</html>
