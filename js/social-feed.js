@@ -1,63 +1,82 @@
-// Opzione 1: Usando Facebook Page Plugin (più semplice)
-function loadFacebookPlugin() {
-    const fbContainer = document.getElementById('facebook-feed');
-    fbContainer.innerHTML = `
-        <div class="fb-page" 
-             data-href="https://www.facebook.com/kiara.flash" 
-             data-tabs="timeline" 
-             data-width="500" 
-             data-height="600" 
-             data-small-header="false" 
-             data-adapt-container-width="true" 
-             data-hide-cover="false" 
-             data-show-facepile="true">
-        </div>
-    `;
-    
-    // Carica SDK Facebook
-    (function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s); js.id = id;
-        js.src = 'https://connect.facebook.net/it_IT/sdk.js#xfbml=1&version=v18.0';
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-}
-
-// Opzione 2: Feed personalizzato (richiede più configurazione)
-async function loadCustomFeed() {
+// Caricamento feed RSS FITARCO usando rss2json API
+async function loadFitarcoFeed() {
     try {
-        // Qui dovrai usare un servizio come RSS Bridge o un backend
-        // che recupera i post da Facebook Graph API
-        const response = await fetch('YOUR_RSS_FEED_URL');
+        const RSS_URL = 'https://www.fitarco.it/media-fitarco/news/19-territorio.feed?type=rss';
+        const API_URL = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(RSS_URL)}&count=3`;
+        
+        const response = await fetch(API_URL);
         const data = await response.json();
         
+        if (data.status !== 'ok') {
+            console.error('Errore nel caricamento del feed RSS:', data.message);
+            showErrorMessage();
+            return;
+        }
+        
         const feedContainer = document.getElementById('facebook-feed');
-        feedContainer.innerHTML = data.posts.map(post => `
-            <div class="post-card">
-                ${post.image ? `<img src="${post.image}" alt="Post image" class="post-image">` : ''}
-                <div class="post-content">
-                    <p class="post-date">${formatDate(post.date)}</p>
-                    <p class="post-text">${post.text}</p>
-                    <a href="${post.link}" target="_blank" class="post-link">Leggi su Facebook →</a>
-                </div>
-            </div>
-        `).join('');
+        if (!feedContainer) return;
+        
+        feedContainer.innerHTML = '';
+        
+        data.items.forEach(item => {
+            const newsCard = createNewsCard(item);
+            feedContainer.appendChild(newsCard);
+        });
+        
     } catch (error) {
-        console.error('Errore caricamento feed:', error);
+        console.error('Errore nel fetch del feed:', error);
+        showErrorMessage();
     }
 }
 
-function formatDate(dateString) {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('it-IT', { 
-        year: 'numeric', 
-        month: 'long', 
-        day: 'numeric' 
-    });
+function createNewsCard(item) {
+    const card = document.createElement('div');
+    card.className = 'news-card';
+    
+    const date = new Date(item.pubDate);
+    const formattedDate = formatDate(date);
+    
+    const description = stripHTML(item.description);
+    const shortDescription = description.length > 200 ? description.substring(0, 200) + '...' : description;
+    
+    card.innerHTML = `
+        <div class="news-header">
+            <strong>FITARCO</strong>
+            <span class="news-date">${formattedDate}</span>
+        </div>
+        <h3 class="news-title">${item.title}</h3>
+        <div class="news-content">
+            <p>${shortDescription}</p>
+        </div>
+        <div class="news-footer">
+            <a href="${item.link}" target="_blank" rel="noopener">Leggi su FITARCO</a>
+        </div>
+    `;
+    
+    return card;
 }
 
-// Carica il feed all'avvio
-document.addEventListener('DOMContentLoaded', () => {
-    loadFacebookPlugin(); // o loadCustomFeed()
-});
+function stripHTML(html) {
+    const tmp = document.createElement('div');
+    tmp.innerHTML = html;
+    return tmp.textContent || tmp.innerText || '';
+}
+
+function formatDate(date) {
+    const options = { day: 'numeric', month: 'long', year: 'numeric' };
+    return date.toLocaleDateString('it-IT', options);
+}
+
+function showErrorMessage() {
+    const feedContainer = document.getElementById('facebook-feed');
+    if (!feedContainer) return;
+    
+    feedContainer.innerHTML = `
+        <div class="news-error">
+            <p>⚠️ Al momento non è possibile caricare le ultime notizie da FITARCO.</p>
+            <p><a href="https://www.fitarco.it/media-fitarco/news/19-territorio" target="_blank" rel="noopener">Visita il sito FITARCO</a></p>
+        </div>
+    `;
+}
+
+document.addEventListener('DOMContentLoaded', loadFitarcoFeed);
